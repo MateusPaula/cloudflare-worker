@@ -1,0 +1,11 @@
+{
+  "name": "mock-worker",
+  "version": "0.0.0",
+  "devDependencies": {
+    "wrangler": "2.6.2"
+  },
+  "private": true,
+  "dependencies": {
+    "tiny-request-router": "^1.2.2"
+  }
+}
