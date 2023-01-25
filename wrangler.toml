@@ -1,3 +1,14 @@
 name = "mock-worker"
 compatibility_date = "2023-01-09"
 account_id = "e75dc38f47714ff5977e0ffce110712a"
+workers_dev = true
+main = "./index.js"
+
+[env.dev]
+vars = {NODE_ENV = "development"}
+
+[env.production]
+webpack_config = "webpack.production.js"
+
+[build]
+command = "yarn build"

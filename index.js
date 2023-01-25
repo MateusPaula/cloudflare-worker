@@ -3,5 +3,6 @@ import { handleRequest } from './handler'
 
 
 addEventListener('fetch', event => {
-    event.respondWith(handleRequest(event.request))
+    event.passThroughOnException();
+    event.respondWith(handleRequest(event));
 })

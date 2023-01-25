@@ -2,10 +2,16 @@
   "name": "mock-worker",
   "version": "0.0.0",
   "devDependencies": {
-    "wrangler": "2.6.2"
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
+    "wrangler": "2.6.2",
+    "wranglerjs-compat-webpack-plugin": "^0.0.6"
   },
   "private": true,
   "dependencies": {
     "tiny-request-router": "^1.2.2"
+  },
+  "scripts": {
+    "build": "webpack"
   }
 }

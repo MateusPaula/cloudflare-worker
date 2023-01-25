@@ -1,5 +1,6 @@
 import { Router } from "tiny-request-router";
 import data from "./mocks/data.json";
+import {postError} from "./logger";
 
 const respondWithJson = (data) =>
   new Response(JSON.stringify(data), {
@@ -30,6 +31,7 @@ router.get("/starwars", async () => {
   const request = new Request("https://swapi.dev/api/planets/1/");
   const originalResponse = await fetch(request);
   const originalData = await originalResponse.json();
+  //const fake = doesNotExist;
   const reducedData = {
     name: originalData.name,
     population: originalData.population,
@@ -39,24 +41,33 @@ router.get("/starwars", async () => {
 
   return new Response(JSON.stringify(reducedData), {
     headers: {
-      "content-type": "application-json",
+      "content-type": "application-json"
     },
   });
 });
 
-export async function handleRequest(request) {
-  const { pathname } = new URL(request.url);
-  const mocked = request.headers.get("mocked") === "true" || false;
+export async function handleRequest(event) {
+  const { request } = event;
 
-  let match;
+  try {
+    const { pathname } = new URL(request.url);
+    const mocked = request.headers.get("mocked") === "true" || false;
 
-  if (mocked) {
-    match = mockedRouter.match(request.method, pathname);
-  } else {
-    match = router.match(request.method, pathname);
-  }
+    let match;
 
-  if (match) {
+    if (mocked) {
+      match = mockedRouter.match(request.method, pathname);
+    } else {
+      match = router.match(request.method, pathname);
+    }
+    
     return match.handler(match.params);
+  
+  } catch (error) {
+    event.waitUntil(postError(error.stack | error));
+    return new Response('Oops not found 404');
+
   }
+  
+
 }
